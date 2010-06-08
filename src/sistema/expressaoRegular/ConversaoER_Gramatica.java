@@ -63,19 +63,6 @@ import sistema.expressaoRegular.parser.TabelaLL1.TabelaLL1;
  * 
  * (T,a): a
  */
-
-/*
-S->A|B|C|D|T
-A->F+F|F+FX
-X->+FX|+F
-B->GG|GGY
-Y->G|GY
-C->(A)*|(B)*|(C)*|(D)*|T*
-D->(A)~|(B)~|(C)~|(D)~|T~
-F->B|C|D|T
-G->(A)|C|D|T
-T->a
-*/
 public class ConversaoER_Gramatica {
 	
 	public static Gramatica conversor;

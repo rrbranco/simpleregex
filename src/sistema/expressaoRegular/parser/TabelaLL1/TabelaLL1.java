@@ -27,4 +27,8 @@ public class TabelaLL1 {
 		
 		term.producoes.add(producao);
 	}
+	
+	public ColunasLL1 getDerivacoesLL1(Variavel v, Character t) {
+		return _Linhas.elementAt(v.idLinha).get(new Terminal(t));
+	}
 }

@@ -2,10 +2,21 @@ package sistema;
 
 import java.util.Vector;
 
+/**
+ * Esta classe representa uma cadeia de substituição através de seus strings
+ * fixos e índices para strings variados.
+ * Tome como exemplo a cadeia de substituição: "ab/1/cd/2/df"
+ * Nesta cadeia sempre teremos os strings fixos: "ab","cd","df"
+ * Entre estes strings fixos teremos strings variadas dependendo da árvore de derivação
+ * encontrada pelo parser que serão inseridos entre estes strings.
+ * Guardamos então no vetor _Indice somente o número corresponte à ER para criacao
+ * da string final.
+ *
+ */
 public class CadeiaSustituicao {
 	public Vector<String> _Fixo = new Vector<String>();
 	public Vector<Integer> _Indice = new Vector<Integer>();
-	public int _MaxIndice=-1;		// Para verificar se existe até tal índice na expressão regular.
+	public int _MaxIndice = -1;		// Para verificar se existe até tal índice na expressão regular.
 	
 	/**
 	 * Cria cadeia de substituição já interpretando os índices.
@@ -58,7 +69,7 @@ public class CadeiaSustituicao {
 		}
 		
 		if (str.charAt(i) != '\\') {
-			System.out.println("Erro de sintaxe\nSubstring fora do padrão: " + str);
+			System.err.println("Erro de sintaxe\nSubstring fora do padrão: " + str);
 			System.exit(1);
 		}
 		return i;
