@@ -10,6 +10,6 @@ public class RegraReescrita {
 		_ER = new ExpressaoRegular(expressaoRegular);
 		_CadeiaSubstituicao = new CadeiaSustituicao(cadeiaSubstituicao);
 		
-		System.out.println("Verificar se os índices de cadeia substituição existem");
+		System.out.println("Verificar se os índices de cadeia substituição existem como grupos na expressao regular");
 	}
 }

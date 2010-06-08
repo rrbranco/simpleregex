@@ -9,5 +9,6 @@ public class ExpressaoRegular {
 	public ExpressaoRegular(String expressaoRegular) {
 		_ER = expressaoRegular;
 		_G = ConversaoER_Gramatica.criarGramaticaDeExpressaoRegular(this);
+		
 	}
 }
