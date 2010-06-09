@@ -65,20 +65,28 @@ import sistema.expressaoRegular.parser.TabelaLL1.TabelaLL1;
  */
 public class ConversaoER_Gramatica {
 	
-	public static Gramatica conversor;
+	private static Gramatica conversorGramatica;
 	
 	public static Gramatica criarGramaticaDeExpressaoRegular(ExpressaoRegular expressaoRegular) {
-		Parser p = new Parser(conversor);
+		Parser p = new Parser(conversorGramatica);
 		p.iniciar(expressaoRegular._ER);
+		
 		Nodo derivacao = p.getNextDerivacao();
-		p.limpar();
-		Gramatica _g = new Gramatica();
+		// Caso não exista uma derivação
+		if (derivacao == null) {
+			System.err.println("Erro de Sintaxe\nER errada: " + expressaoRegular._ER);
+			System.exit(1);
+		}
 		
 		/**
 		 * Algorítmo de conversão de ER para gramática
 		 */
+		Gramatica gramaticaER = new Gramatica();
 		
-		return _g;
+		
+		
+		p.limpar();			// Limpar último parseamento
+		return gramaticaER;
 	}
 	
 	/**
@@ -125,39 +133,56 @@ public class ConversaoER_Gramatica {
 		Producao C3 = new Producao(C);C3.addSimboloCorpo(_g.getTerminal('('));C3.addSimboloCorpo(C);C3.addSimboloCorpo(_g.getTerminal(')'));C3.addSimboloCorpo(_g.getTerminal('*'));
 		Producao C4 = new Producao(C);C4.addSimboloCorpo(_g.getTerminal('('));C4.addSimboloCorpo(D);C4.addSimboloCorpo(_g.getTerminal(')'));C4.addSimboloCorpo(_g.getTerminal('*'));
 		Producao C5 = new Producao(C);C5.addSimboloCorpo(T);C5.addSimboloCorpo(_g.getTerminal('*'));
-		/*Producao D1 = new Producao(D);
-		Producao D2 = new Producao(D);
-		Producao D3 = new Producao(D);
-		Producao D4 = new Producao(D);
-		Producao D5 = new Producao(D);
-		Producao F1 = new Producao(F);
-		Producao F2 = new Producao(F);
-		Producao F3 = new Producao(F);
-		Producao F4 = new Producao(F);
-		Producao G1 = new Producao(G);
-		Producao G2 = new Producao(G);
-		Producao G3 = new Producao(G);
-		Producao G4 = new Producao(G);
-		Producao T1 = new Producao(T);
-		*/
-		_g.addProducao(S1);_g.addProducao(S2);_g.addProducao(S3);/* ... */
+		Producao D1 = new Producao(D);D1.addSimboloCorpo(_g.getTerminal('('));D1.addSimboloCorpo(A);D1.addSimboloCorpo(_g.getTerminal(')'));D1.addSimboloCorpo(_g.getTerminal('~'));
+		Producao D2 = new Producao(D);D2.addSimboloCorpo(_g.getTerminal('('));D2.addSimboloCorpo(B);D2.addSimboloCorpo(_g.getTerminal(')'));D2.addSimboloCorpo(_g.getTerminal('~'));
+		Producao D3 = new Producao(D);D3.addSimboloCorpo(_g.getTerminal('('));D3.addSimboloCorpo(C);D3.addSimboloCorpo(_g.getTerminal(')'));D3.addSimboloCorpo(_g.getTerminal('~'));
+		Producao D4 = new Producao(D);D4.addSimboloCorpo(_g.getTerminal('('));D4.addSimboloCorpo(D);D4.addSimboloCorpo(_g.getTerminal(')'));D4.addSimboloCorpo(_g.getTerminal('~'));
+		Producao D5 = new Producao(D);D5.addSimboloCorpo(T);D5.addSimboloCorpo(_g.getTerminal('~'));
+		Producao F1 = new Producao(F);F1.addSimboloCorpo(B);
+		Producao F2 = new Producao(F);F2.addSimboloCorpo(C);
+		Producao F3 = new Producao(F);F3.addSimboloCorpo(D);
+		Producao F4 = new Producao(F);F4.addSimboloCorpo(T);
+		Producao G1 = new Producao(G);G1.addSimboloCorpo(_g.getTerminal('('));G1.addSimboloCorpo(A);G1.addSimboloCorpo(_g.getTerminal(')'));
+		Producao G2 = new Producao(G);G2.addSimboloCorpo(C);
+		Producao G3 = new Producao(G);G3.addSimboloCorpo(D);
+		Producao G4 = new Producao(G);G4.addSimboloCorpo(T);
+		Producao T1 = new Producao(T);T1.addSimboloCorpo(_g.getTerminal('a'));
+		_g.addProducao(S1);_g.addProducao(S2);_g.addProducao(S3);_g.addProducao(S4);_g.addProducao(S5);
+		_g.addProducao(A1);_g.addProducao(A2);
+		_g.addProducao(X1);_g.addProducao(X2);
+		_g.addProducao(B1);_g.addProducao(B2);
+		_g.addProducao(Y1);_g.addProducao(Y2);
+		_g.addProducao(C1);_g.addProducao(C2);_g.addProducao(C3);_g.addProducao(C4);_g.addProducao(C5);
+		_g.addProducao(D1);_g.addProducao(D2);_g.addProducao(D3);_g.addProducao(D4);_g.addProducao(D5);
+		_g.addProducao(F1);_g.addProducao(F2);_g.addProducao(F3);_g.addProducao(F4);
+		_g.addProducao(G1);_g.addProducao(G2);_g.addProducao(G3);_g.addProducao(G4);
+		_g.addProducao(T1);
 		
 		/**
 		 * Criando a tabela LL(1)
 		 */
 		TabelaLL1 _t = new TabelaLL1();
 		// Adicionando as produções na tabela LL1
-		_t.addProducao(S, _g.getTerminal('('), S1);
-		_t.addProducao(S, _g.getTerminal('('), S2);
-		_t.addProducao(S, _g.getTerminal('('), S3);
-		_t.addProducao(S, _g.getTerminal('('), S4);
-		_t.addProducao(S, _g.getTerminal('a'), S1);
-		_t.addProducao(S, _g.getTerminal('a'), S2);
-		_t.addProducao(S, _g.getTerminal('a'), S3);
-		_t.addProducao(S, _g.getTerminal('a'), S4);
-		_t.addProducao(S, _g.getTerminal('a'), S5);/* .. */
+		_t.addProducao(S, _g.getTerminal('('), S1); _t.addProducao(S, _g.getTerminal('('), S2); _t.addProducao(S, _g.getTerminal('('), S3); _t.addProducao(S, _g.getTerminal('('), S4);
+		_t.addProducao(S, _g.getTerminal('a'), S1); _t.addProducao(S, _g.getTerminal('a'), S2); _t.addProducao(S, _g.getTerminal('a'), S3); _t.addProducao(S, _g.getTerminal('a'), S4); _t.addProducao(S, _g.getTerminal('a'), S5);
+		_t.addProducao(A, _g.getTerminal('('), A1); _t.addProducao(A, _g.getTerminal('('), A2);
+		_t.addProducao(A, _g.getTerminal('a'), A1); _t.addProducao(A, _g.getTerminal('a'), A2);
+		_t.addProducao(X, _g.getTerminal('+'), X1); _t.addProducao(X, _g.getTerminal('+'), X2);
+		_t.addProducao(B, _g.getTerminal('('), B1); _t.addProducao(B, _g.getTerminal('('), B2);
+		_t.addProducao(B, _g.getTerminal('a'), B1); _t.addProducao(B, _g.getTerminal('a'), B2);
+		_t.addProducao(Y, _g.getTerminal('('), Y1); _t.addProducao(Y, _g.getTerminal('('), Y2);
+		_t.addProducao(Y, _g.getTerminal('a'), B1); _t.addProducao(Y, _g.getTerminal('a'), B2);
+		_t.addProducao(C, _g.getTerminal('('), C1); _t.addProducao(C, _g.getTerminal('('), C2); _t.addProducao(C, _g.getTerminal('('), C3); _t.addProducao(C, _g.getTerminal('('), C4);
+		_t.addProducao(C, _g.getTerminal('a'), C5);
+		_t.addProducao(D, _g.getTerminal('('), D1); _t.addProducao(D, _g.getTerminal('('), D2); _t.addProducao(D, _g.getTerminal('('), D3); _t.addProducao(D, _g.getTerminal('('), D4);
+		_t.addProducao(D, _g.getTerminal('a'), D5);
+		_t.addProducao(F, _g.getTerminal('('), F1); _t.addProducao(F, _g.getTerminal('('), F2); _t.addProducao(F, _g.getTerminal('('), F3);
+		_t.addProducao(F, _g.getTerminal('a'), F1); _t.addProducao(F, _g.getTerminal('a'), F2); _t.addProducao(F, _g.getTerminal('a'), F3); _t.addProducao(F, _g.getTerminal('a'), F4);
+		_t.addProducao(G, _g.getTerminal('('), G1); _t.addProducao(G, _g.getTerminal('('), G2); _t.addProducao(G, _g.getTerminal('('), G3);
+		_t.addProducao(G, _g.getTerminal('a'), G2); _t.addProducao(G, _g.getTerminal('a'), G3); _t.addProducao(G, _g.getTerminal('a'), G4);
+		_t.addProducao(T, _g.getTerminal('a'), T1);
 		
 		_g._TabLL1 = _t;
-		conversor = _g;
+		conversorGramatica = _g;
 	}
 }
