@@ -18,14 +18,10 @@ public class TabelaLL1 {
 		LinhaLL1 var = _Linhas.elementAt(variavel.idLinha);
 		
 		// Adicionando o mapeamento dos terminais da coluna
-		ColunasLL1 term;
 		if (!var.containsKey(terminal)) {
-			term = var.put(terminal, new ColunasLL1());
-		} else {
-			term = var.get(terminal);
+			var.put(terminal, new ColunasLL1());
 		}
-		
-		term.producoes.add(producao);
+		var.get(terminal).addProducao(producao);
 	}
 	
 	public ColunasLL1 getDerivacoesLL1(Variavel v, Character t) {

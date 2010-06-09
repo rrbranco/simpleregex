@@ -5,7 +5,7 @@ import sistema.expressaoRegular.gramatica.Terminal;
 public class Run {
 	
 	public static void main(String[] args) {
-		new RegraReescrita("a+{({b+c})*}","\1a\2");
+		RegraReescrita regra = new RegraReescrita("a+(a+a)*", "a");
 		Terminal t1 = new Terminal((char) 3);
 		Terminal t2 = new Terminal((char) 4);
 		

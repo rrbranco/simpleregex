@@ -5,17 +5,34 @@ import java.util.Vector;
 import sistema.expressaoRegular.gramatica.Simbolo;
 
 public class Nodo {
-	// Representação da forma sentencial
-	public Vector<Simbolo> _FormaSentencial = new Vector<Simbolo>();
+	public Nodo _Pai;
 	
-	// Caminhos diferentes de derivação
-	private Vector<Derivacao> _Caminhos = new Vector<Derivacao>();
+	// Representação da forma sentencial do nodo atual
+	public Vector<Simbolo> _FormaSentencial = new Vector<Simbolo>();
 	
 	// Caractere à casar
 	public int pCharACasar;
 	
-	public Nodo(int charACasar, Simbolo simbolo) {
+	// Caminhos diferentes de derivação
+	private Vector<Nodo> _Caminhos = new Vector<Nodo>();
+	
+	public Nodo(int charACasar, Simbolo formaSentencial) {
 		pCharACasar = charACasar;
-		_FormaSentencial.add(simbolo);
+		_FormaSentencial.add(formaSentencial);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public Nodo(Nodo pai) {
+		_Pai = pai;
+		pCharACasar = pai.pCharACasar;
+		_FormaSentencial = (Vector<Simbolo>) pai._FormaSentencial.clone();
+	}
+	
+	public Nodo getCaminho(int i) { return _Caminhos.elementAt(i); }
+	
+	public void setCaminhos(Vector<Nodo> caminhos) { _Caminhos.addAll(caminhos); }
+	
+	public void eliminarCaminho(int i) { _Caminhos.removeElementAt(i); }
+	
+	public int getMaxBacktracking() { return _Caminhos.size(); }
 }
