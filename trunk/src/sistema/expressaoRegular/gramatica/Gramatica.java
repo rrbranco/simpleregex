@@ -12,7 +12,7 @@ public class Gramatica {
 	public TabelaLL1 _TabLL1;
 	
 	public void addTerminal(Terminal s) {
-		if (_T.indexOf(s) != -1) {
+		if (_T.indexOf(s) == -1) {
 			_T.add(s);
 		}
 	}
