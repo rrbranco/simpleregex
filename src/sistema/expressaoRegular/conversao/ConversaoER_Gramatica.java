@@ -118,7 +118,7 @@ public class ConversaoER_Gramatica {
 	private static ParserConversor parserConversor;
 	
 	public static final char terminal = 'a';
-	public static final char escape = '\\';
+	public static final char escape = '/';
 	
 	
 	public static Gramatica criarGramaticaDeExpressaoRegular(ExpressaoRegular expressaoRegular) {
