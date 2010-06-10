@@ -2,15 +2,14 @@ package sistema.expressaoRegular.parser;
 
 import java.util.Vector;
 
-import sistema.expressaoRegular.gramatica.Gramatica;
 import sistema.expressaoRegular.gramatica.Simbolo;
+import sistema.expressaoRegular.gramatica.Terminal;
 import sistema.expressaoRegular.gramatica.Variavel;
 import sistema.expressaoRegular.parser.TabelaLL1.ColunasLL1;
 
-public class Parser {
-	// Gramática com tabela LL(1) e string a ser casada.
-	private Gramatica _G;
-	private String _Str;
+public abstract class GenericParser {
+	// Tamanho da string de entrada
+	private int tamStringEntrada;
 	
 	// Sentença formal da derivação
 	private Nodo _FS;
@@ -19,18 +18,14 @@ public class Parser {
 	// Vetor para BackTracking do parser
 	private Vector<Integer> _BT;
 	
-	public Parser(Gramatica grammatica) {
-		_G = grammatica;
-	}
-	
 	/**
 	 * Iniciar o parser para encontrar derivações
 	 * 
 	 * @param str - String a ser interpretada, casada
 	 */
-	public void iniciar(String str) {
-		_Str = str;
-		_NodoPai = new Nodo(0, _G._VariavelInicial);
+	public void iniciar(int tamStringEntrada, Variavel varInicial) {
+		this.tamStringEntrada = tamStringEntrada;
+		_NodoPai = new Nodo(0, varInicial);
 		_FS = _NodoPai;
 		_BT = new Vector<Integer>();
 	}
@@ -42,10 +37,10 @@ public class Parser {
 		/**
 		 * Verificar se já casou com todos os i elementos da string de entrada
 		 */
-		if (_FS.pCharACasar >= _Str.length()) {
+		if (_FS.pCharACasar >= tamStringEntrada) {
 			
 			// Caso existam ainda mais símbolos na forma sentencial
-			if (_FS._FormaSentencial.size() > _Str.length()) {
+			if (_FS._FormaSentencial.size() > tamStringEntrada) {
 				
 				// Todos deverão ser variáveis com epsilon em FIRST
 				if (isAllEpsilonVariaveis(_FS._FormaSentencial, _FS.pCharACasar)) {
@@ -67,16 +62,15 @@ public class Parser {
 		}
 		
 		
-		// Adquirindo símbolo mais a esquerda à casar e caractere de entrada
+		// Adquirindo símbolo mais a esquerda à casar
 		Simbolo sEsq = _FS._FormaSentencial.elementAt(_FS.pCharACasar);
-		char charEntrada = _Str.charAt(_FS.pCharACasar);
 		
 		/**
 		 * Caso o símbolo da forma sentencial for um terminal
 		 */
 		if (sEsq.isTerminal()) {
 			// Se o símbolo da forma sentencial for correto
-			if (sEsq.equals(charEntrada)) {
+			if (itMatch((Terminal) sEsq, _FS.pCharACasar)) {
 				_FS.pCharACasar++;
 				return proximoPasso();			// Casar próximo caractere
 				
@@ -89,7 +83,7 @@ public class Parser {
 		 * Caso o símbolo da forma sentencial for uma variável
 		 */
 		} else {
-			ColunasLL1 derivacoes = _G._TabLL1.getDerivacoesLL1((Variavel) sEsq, charEntrada);
+			ColunasLL1 derivacoes = getDerivacoesLL1((Variavel) sEsq, _FS.pCharACasar);
 			
 			// Caso não exista derivação para esta variável e terminal
 			if (derivacoes == null) {
@@ -107,7 +101,7 @@ public class Parser {
 			}
 		}
 	}
-	
+
 	private boolean isAllEpsilonVariaveis(Vector<Simbolo> variaveis, int indiceInicial) {
 		
 		for (; indiceInicial < variaveis.size(); indiceInicial++) {
@@ -153,10 +147,13 @@ public class Parser {
 	}
 	
 	public void limpar() {
-		_Str = null;
 		_NodoPai = null;
 		_FS = null;
 		_BT = null;
 		System.gc();
 	}
+	
+	protected abstract boolean itMatch(Terminal t, int charACasar);
+	
+	protected abstract ColunasLL1 getDerivacoesLL1(Variavel linha, int charFirst);
 }

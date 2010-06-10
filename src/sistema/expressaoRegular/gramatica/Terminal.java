@@ -21,6 +21,6 @@ public class Terminal extends Simbolo {
 	
 	@Override
 	public Object clone() {
-		return new Terminal(this._caractere);
+		return new Terminal(this._caractere);		// Não utilizado
 	}
 }
