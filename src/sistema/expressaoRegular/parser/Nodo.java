@@ -2,10 +2,13 @@ package sistema.expressaoRegular.parser;
 
 import java.util.Vector;
 
+import sistema.expressaoRegular.gramatica.Producao;
 import sistema.expressaoRegular.gramatica.Simbolo;
 
 public class Nodo {
 	public Nodo _Pai;
+	
+	public Producao derivacao;
 	
 	// Representação da forma sentencial do nodo atual
 	public Vector<Simbolo> _FormaSentencial = new Vector<Simbolo>();
@@ -35,4 +38,11 @@ public class Nodo {
 	public void eliminarCaminho(int i) { _Caminhos.removeElementAt(i); }
 	
 	public int getMaxBacktracking() { return _Caminhos.size(); }
+	
+	public Nodo getProxNodoDerivado() {
+		if (_Caminhos.size() > 0)
+			return _Caminhos.firstElement();
+		
+		return null;
+	}
 }

@@ -1,10 +1,13 @@
 package sistema.expressaoRegular.gramatica;
 
 public class Terminal extends Simbolo {
+	
 	/**
-	 * Símbolo Epsilon
+	 * Símbolos especiais
 	 */
-	public static char epsilon = 0;
+	public static final char escape = '/';
+	public static final char terminal = 1;
+	public static final char epsilon = 0;
 	
 	public Terminal(char caractere) {
 		super(caractere);
@@ -16,7 +19,7 @@ public class Terminal extends Simbolo {
 	
 	@Override
 	public int hashCode(){
-		return this._caractere.hashCode();
+		return _caractere.hashCode();
 	}
 	
 	@Override

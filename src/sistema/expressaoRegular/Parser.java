@@ -14,6 +14,11 @@ public class Parser extends GenericParser{
 		super();
 		
 		_G = _g;
+		gerarFirstFollow();
+	}
+	
+	private void gerarFirstFollow() {
+		System.out.println("Gerar First and Follow");
 	}
 	
 	public void iniciar(String stringEntrada) {
@@ -24,7 +29,7 @@ public class Parser extends GenericParser{
 	
 	@Override
 	protected ColunasLL1 getDerivacoesLL1(Variavel linha, int charFirst) {
-		return _G._TabLL1.getDerivacoesLL1(linha, stringEstrada.charAt(charFirst));
+		return _G._TabLL1.getDerivacoesLL1(linha, new Terminal(stringEstrada.charAt(charFirst)));
 	}
 	
 	@Override

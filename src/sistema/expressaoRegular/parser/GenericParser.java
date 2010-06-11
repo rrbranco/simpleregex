@@ -42,7 +42,7 @@ public abstract class GenericParser {
 			// Caso existam ainda mais símbolos na forma sentencial
 			if (_FS._FormaSentencial.size() > tamStringEntrada) {
 				
-				// Todos deverão ser variáveis com epsilon em FIRST
+				// Todos deverão ser variáveis com epsilon em FIRST a partir de pCharACasar
 				if (isAllEpsilonVariaveis(_FS._FormaSentencial, _FS.pCharACasar)) {
 					return true;					// Conseguiu encontrar uma derivação
 				} else {
