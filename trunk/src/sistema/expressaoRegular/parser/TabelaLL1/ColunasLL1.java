@@ -13,11 +13,12 @@ public class ColunasLL1 {
 		
 		// Gerando todos os caminhos possíveis de derivação
 		for (int i = 0; i < producoes.size(); i++) {
-			Nodo n = new Nodo(pai);		// Criando novo nodo a partir do pai
+			Nodo n = new Nodo(pai);					// Criando novo nodo a partir do pai
+			n.derivacao = producoes.elementAt(i);	// Adicionando a produção que o derivou
 			
-			// Retirando a variável derivada e adicionando corpo da produção
+			// Retirando a variável derivada do novo nodo e adicionando corpo da produção
 			n._FormaSentencial.removeElementAt(n.pCharACasar);
-			n._FormaSentencial.addAll(n.pCharACasar, producoes.elementAt(i)._corpo);
+			n._FormaSentencial.addAll(n.pCharACasar, producoes.elementAt(i)._Corpo);
 			
 			caminhos.add(n);
 		}

@@ -2,16 +2,20 @@ package sistema.expressaoRegular.gramatica;
 
 import java.util.Vector;
 
+import sistema.expressaoRegular.conversao.conversores.Conversor;
+
 
 public class Producao {
 	public Variavel _V;
-	public Vector<Simbolo> _corpo = new Vector<Simbolo>();
+	public Vector<Simbolo> _Corpo = new Vector<Simbolo>();
+	public Conversor _Conversor;
 	
-	public Producao(Variavel v) {
+	public Producao(Variavel v, Conversor c) {
 		_V = v;
+		_Conversor = c;
 	}
 	
 	public void addSimboloCorpo(Simbolo s){
-		_corpo.add(s);
+		_Corpo.add(s);
 	}
 }
