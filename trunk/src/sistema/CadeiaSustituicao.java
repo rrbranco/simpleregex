@@ -2,6 +2,8 @@ package sistema;
 
 import java.util.Vector;
 
+import sistema.expressaoRegular.gramatica.Terminal;
+
 /**
  * Esta classe representa uma cadeia de substituição através de seus strings
  * fixos e índices para strings variados.
@@ -29,7 +31,7 @@ public class CadeiaSustituicao {
 		
 		for (int i = 0; i < str.length(); i++) {
 			
-			if (str.charAt(i) == '\\') {
+			if (str.charAt(i) == Terminal.escape) {
 				// Caso seja um terminal
 				if (!Character.isDigit(str.charAt(i+1))) {
 					// Não altera o texto, para não ocorrer em erro na entrada de outra regra de reescrita.
@@ -41,7 +43,7 @@ public class CadeiaSustituicao {
 					_Fixo.add( str.substring(0, i) );		// Adicionando parte fixa
 					str = str.substring(i, str.length());	// Alterando para processar o resto da string
 					
-					i = getIndiceFinal(str); 	// Índice do caractere \
+					i = getIndiceFinal(str); 	// Índice do caractere /
 					String numero = str.substring(1, i);
 					_Indice.add(new Integer(numero));	// Adicionando o número do índice
 					
@@ -68,7 +70,7 @@ public class CadeiaSustituicao {
 			break;
 		}
 		
-		if (str.charAt(i) != '\\') {
+		if (str.charAt(i) != Terminal.escape) {
 			System.err.println("Erro de sintaxe\nSubstring fora do padrão: " + str);
 			System.exit(1);
 		}
