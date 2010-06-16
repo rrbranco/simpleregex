@@ -54,6 +54,20 @@ public class ParserConversor extends GenericParser{
 	}
 	
 	private Terminal getParserChar(int i) {
-		return new Terminal( (_CharEscapado.indexOf(i)==-1)?_StrEntradaEscapada.charAt(i):Terminal.terminal );
+		
+		if (_CharEscapado.indexOf(i) != -1) {
+			return new Terminal(Terminal.terminal);
+		}
+		
+		Character c = _StrEntradaEscapada.charAt(i);
+		if ( c != '(' &&									// Caso não seja (, ), {, }, +, *, ~
+				c != ')' &&
+				c != '{' &&
+				c != '}' &&
+				c != '*' &&
+				c != '+' &&
+				c != '~'	) { c = Terminal.terminal; }	// É um terminal da nova gramática
+		
+		return new Terminal( c );
 	}
 }
