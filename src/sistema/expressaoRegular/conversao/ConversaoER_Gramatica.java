@@ -156,13 +156,14 @@ public class ConversaoER_Gramatica {
 		gramaticaER.addVariavel(gramaticaER._VariavelInicial);
 		
 		Vector<Variavel> aux = new Vector<Variavel>();
+		Vector<Variavel> ou = new Vector<Variavel>();
 		aux.add(gramaticaER._VariavelInicial);
 		
 		Nodo n = derivacao.getProxNodoDerivado();
 		int terminaisLidos = 0;
 		
 		do {
-			terminaisLidos = n.derivacao._Conversor.converter(gramaticaER, aux, new Vector<Variavel>(), parserConversor, n, terminaisLidos);
+			terminaisLidos = n.derivacao._Conversor.converter(gramaticaER, aux, ou, parserConversor, n, terminaisLidos);
 		} while ((n = n.getProxNodoDerivado()) != null);
 		
 		parserConversor.limpar();			// Limpar último parseamento

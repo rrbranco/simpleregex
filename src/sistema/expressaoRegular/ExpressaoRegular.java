@@ -10,9 +10,10 @@ public class ExpressaoRegular {
 	public ExpressaoRegular(String expressaoRegular) {
 		_ER = expressaoRegular;
 		Gramatica _G = ConversaoER_Gramatica.criarGramaticaDeExpressaoRegular(this);
-		System.out.println("Verificar se os indices dos grupos batem com os numeros da cadeia de substituicao");
 		
-		// Criando parser para a expressão regular
+		/**
+		 * Criando tabela de parser para a expressão regular
+		 */
 		_P = new Parser(_G);
 	}
 }

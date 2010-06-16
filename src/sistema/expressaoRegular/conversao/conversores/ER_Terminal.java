@@ -29,7 +29,7 @@ public class ER_Terminal implements Conversor {
 		g.addProducao(_p);
 		
 		// Incrementar terminaisLidos se possível
-		while( n._FormaSentencial.elementAt(terminaisLidos).isTerminal() ) {
+		while( terminaisLidos < n._FormaSentencial.size() && n._FormaSentencial.elementAt(terminaisLidos).isTerminal() ) {
 			terminaisLidos++;
 		}
 		

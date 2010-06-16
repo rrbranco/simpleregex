@@ -8,7 +8,7 @@ import sistema.expressaoRegular.parser.TabelaLL1.ColunasLL1;
 
 public class Parser extends GenericParser{
 	private String stringEstrada;
-	private Gramatica _G;
+	public Gramatica _G;
 
 	public Parser(Gramatica _g) {
 		super();

@@ -42,6 +42,13 @@ public class ParserConversor extends GenericParser{
 		// Iniciando o parser
 		super.iniciar(_StrEntradaEscapada.length(), _G._VariavelInicial);
 	}
+	
+	@Override
+	public void limpar() {
+		_CharEscapado = null;
+		_StrEntradaEscapada = null;
+		super.limpar();
+	}
 
 	@Override
 	protected ColunasLL1 getDerivacoesLL1(Variavel linha, int charFirst) {
@@ -53,24 +60,6 @@ public class ParserConversor extends GenericParser{
 		return t.equals( getParserChar(charACasar) );
 	}
 	
-	private Terminal getParserChar(int i) {
-		
-		if (_CharEscapado.indexOf(i) != -1) {
-			return new Terminal(Terminal.terminal);
-		}
-		
-		Character c = _StrEntradaEscapada.charAt(i);
-		if ( c != '(' &&									// Caso não seja (, ), {, }, +, *, ~
-				c != ')' &&
-				c != '{' &&
-				c != '}' &&
-				c != '*' &&
-				c != '+' &&
-				c != '~'	) { c = Terminal.terminal; }	// É um terminal da nova gramática
-		
-		return new Terminal( c );
-	}
-
 	@Override
 	protected boolean podarDerivacao() {
 		int charToMatch = 0;
@@ -98,5 +87,23 @@ public class ParserConversor extends GenericParser{
 		}
 		
 		return false;
+	}
+	
+	private Terminal getParserChar(int i) {
+		
+		if (_CharEscapado.indexOf(i) != -1) {
+			return new Terminal(Terminal.terminal);
+		}
+		
+		Character c = _StrEntradaEscapada.charAt(i);
+		if ( c != '(' &&									// Caso não seja (, ), {, }, +, *, ~
+				c != ')' &&
+				c != '{' &&
+				c != '}' &&
+				c != '*' &&
+				c != '+' &&
+				c != '~'	) { c = Terminal.terminal; }	// É um terminal da nova gramática
+		
+		return new Terminal( c );
 	}
 }
