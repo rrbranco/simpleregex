@@ -27,7 +27,7 @@ public class CadeiaSustituicao {
 	 * com n sendo um dígito, e caracteres definidos como /n com n sendo qualquer
 	 * caractere menos dígito.  
 	 */
-	public CadeiaSustituicao(String str) {
+	public CadeiaSustituicao(String str, int _MaxIndiceGramatica) {
 		
 		for (int i = 0; i < str.length(); i++) {
 			

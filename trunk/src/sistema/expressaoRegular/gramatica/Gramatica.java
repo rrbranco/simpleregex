@@ -11,6 +11,8 @@ public class Gramatica {
 	public Variavel _VariavelInicial;
 	public TabelaLL1 _TabLL1;
 	
+	public int _MaxIndice = -1;		// Índice máximo de grupos
+	
 	public void addTerminal(Terminal s) {
 		if (_T.indexOf(s) == -1) {
 			_T.add(s);
@@ -18,6 +20,7 @@ public class Gramatica {
 	}
 	
 	public void addVariavel(Variavel v) {
+		if (v instanceof Grupo) { ((Grupo)v)._Indice = ++_MaxIndice; }
 		_V.add(v);
 	}
 	
