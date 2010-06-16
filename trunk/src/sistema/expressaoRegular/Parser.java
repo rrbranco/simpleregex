@@ -36,4 +36,7 @@ public class Parser extends GenericParser{
 	protected boolean itMatch(Terminal t, int charACasar) {
 		return t.equals(stringEstrada.charAt(charACasar));
 	}
+
+	@Override
+	protected boolean podarDerivacao() {return false;}
 }

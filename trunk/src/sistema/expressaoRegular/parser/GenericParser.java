@@ -12,7 +12,7 @@ public abstract class GenericParser {
 	private int tamStringEntrada;
 	
 	// Sentença formal da derivação
-	private Nodo _FS;
+	protected Nodo _FS;
 	private Nodo _NodoPai;
 	
 	// Vetor para BackTracking do parser
@@ -34,6 +34,7 @@ public abstract class GenericParser {
 	 * Realiza os passos do parser LL(1)
 	 */
 	private boolean proximoPasso() {
+		System.gc();
 		/**
 		 * Verificar se já casou com todos os i elementos da string de entrada
 		 */
@@ -62,6 +63,14 @@ public abstract class GenericParser {
 		}
 		
 		DebugFormaSentencial(_FS._FormaSentencial);
+		
+		/**
+		 * Verificar se podem ser podadas as derivações seguintes
+		 */
+		if (podarDerivacao()) {
+			System.out.println("Podado");
+			return abortarCaminho();
+		}
 		
 		// Adquirindo símbolo mais a esquerda à casar
 		Simbolo sEsq = _FS._FormaSentencial.elementAt(_FS.pCharACasar);
@@ -159,6 +168,8 @@ public abstract class GenericParser {
 	protected abstract boolean itMatch(Terminal t, int charACasar);
 	
 	protected abstract ColunasLL1 getDerivacoesLL1(Variavel linha, int charFirst);
+	
+	protected abstract boolean podarDerivacao();
 	
 	private void DebugFormaSentencial(Vector<Simbolo> formaSentencial) {
 		for (int i = 0; i < formaSentencial.size(); i++) {
