@@ -117,6 +117,8 @@ public abstract class GenericParser {
 	}
 
 	private boolean abortarCaminho() {
+		System.out.println("Abortando caminho");
+		
 		// Não existe mais caminhos alternativos
 		if (_BT.isEmpty()) {
 			return false;
@@ -161,9 +163,11 @@ public abstract class GenericParser {
 	private void DebugFormaSentencial(Vector<Simbolo> formaSentencial) {
 		for (int i = 0; i < formaSentencial.size(); i++) {
 			if (formaSentencial.elementAt(i) instanceof Variavel)
-				System.out.print("V");
-			else
-				System.out.print(((Terminal)formaSentencial.elementAt(i))._caractere);
+				System.out.print(((Variavel)formaSentencial.elementAt(i)).simboloDebug);
+			else {
+				char c = ((Terminal)formaSentencial.elementAt(i))._caractere;
+				System.out.print((c==Terminal.terminal)?'a':c);
+			}
 		}
 		System.out.println();
 	}

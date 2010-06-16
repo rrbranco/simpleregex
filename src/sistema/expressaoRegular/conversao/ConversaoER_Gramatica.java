@@ -187,16 +187,16 @@ public class ConversaoER_Gramatica {
 		_g.addTerminal(new Terminal('~'));
 		_g.addTerminal(new Terminal(Terminal.terminal));
 		
-		Variavel S = new Variavel();
-		Variavel A = new Variavel();
-		Variavel X = new Variavel();
-		Variavel B = new Variavel();
-		Variavel Y = new Variavel();
-		Variavel C = new Variavel();
-		Variavel D = new Variavel();
-		Variavel F = new Variavel();
-		Variavel G = new Variavel();
-		Variavel T = new Variavel();
+		Variavel S = new Variavel('S');
+		Variavel A = new Variavel('A');
+		Variavel X = new Variavel('X');
+		Variavel B = new Variavel('B');
+		Variavel Y = new Variavel('Y');
+		Variavel C = new Variavel('C');
+		Variavel D = new Variavel('D');
+		Variavel F = new Variavel('F');
+		Variavel G = new Variavel('G');
+		Variavel T = new Variavel('T');
 		_g.addVariavel(S); _g.addVariavel(A);  _g.addVariavel(X); _g.addVariavel(B);  _g.addVariavel(Y); _g.addVariavel(C); _g.addVariavel(D);  _g.addVariavel(F);  _g.addVariavel(G);  _g.addVariavel(T);
 		_g._VariavelInicial = S;
 		
