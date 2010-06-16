@@ -76,21 +76,24 @@ public class ParserConversor extends GenericParser{
 		int charToMatch = 0;
 		
 		// Para todos os terminais na forma sentencial
-		for (int i = 0; i < _FS._FormaSentencial.size(); i++) {
-			if (_FS._FormaSentencial.elementAt(i) instanceof Variavel) {
-				continue;
+		int i = 0;
+		for (; i < _FS._FormaSentencial.size(); i++) {
+			
+			if (_FS._FormaSentencial.elementAt(i) instanceof Variavel) {	// Como esta gramática não possui produções epsilon
+				charToMatch++;												// Uma variável deve representar pelo menos um símbolo
+				
+			} else {
+				Terminal t = (Terminal) _FS._FormaSentencial.elementAt(i);
+				
+				// Localizar a primeira ocorrência do terminal t na string de entrada, a partir do restante a ser casado
+				while (charToMatch++ < _StrEntradaEscapada.length()) {
+					if (getParserChar(charToMatch-1).equals(t))
+						break;
+				}
 			}
 			
-			Terminal t = (Terminal) _FS._FormaSentencial.elementAt(i);
-			
-			// Localizar a primeira ocorrência do terminal t na string de entrada, a partir do restante a ser casado
-			for (; charToMatch < _StrEntradaEscapada.length(); charToMatch++) {
-				if (getParserChar(charToMatch).equals(t))
-					break;
-			}
-			
-			// Caso tenha percorrido a string de entrada inteira e não encontrado t, abortar caminho de derivação
-			if (charToMatch >= _StrEntradaEscapada.length())
+			// Caso tenha percorrido mais símbolos do que a string de entrada, abortar caminho de derivação
+			if (charToMatch > _StrEntradaEscapada.length())
 				return true;
 		}
 		
