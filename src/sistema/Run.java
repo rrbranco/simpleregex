@@ -3,7 +3,7 @@ package sistema;
 public class Run {
 	
 	public static void main(String[] args) {
-		//RegraReescrita regra = new RegraReescrita("b~/+a+{({b+C})*}", "/1/a/2/");
-		RegraReescrita regra = new RegraReescrita("({b}+{c})*", "a");
+		//RegraReescrita regra = new RegraReescrita("b~/+a+{({b+C})*}", "/0/a/1/");
+		RegraReescrita regra = new RegraReescrita("({b}+{c})*", "/0/a/1/");
 	}
 }

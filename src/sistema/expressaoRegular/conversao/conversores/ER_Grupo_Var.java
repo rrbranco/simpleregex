@@ -29,6 +29,6 @@ public class ER_Grupo_Var implements Conversor {
 		_p.addSimboloCorpo(grupo);
 		g.addProducao(_p);
 		
-		return terminaisLidos++;	// Incrementa um terminal {
+		return ++terminaisLidos;	// Incrementa um terminal {
 	}
 }

@@ -28,6 +28,6 @@ public class ER_Parentes_Var implements Conversor {
 		_p.addSimboloCorpo(var);
 		g.addProducao(_p);
 		
-		return terminaisLidos++;	// Incrementa um terminal (
+		return ++terminaisLidos;	// Incrementa um terminal (
 	}
 }
