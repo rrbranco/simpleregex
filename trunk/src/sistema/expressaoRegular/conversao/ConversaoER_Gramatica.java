@@ -5,6 +5,7 @@ import java.util.Vector;
 import sistema.expressaoRegular.ExpressaoRegular;
 import sistema.expressaoRegular.conversao.conversores.ER_Estrela_Parentes_Grupo_Var;
 import sistema.expressaoRegular.conversao.conversores.ER_Estrela_Parentes_Var;
+import sistema.expressaoRegular.conversao.conversores.ER_Grupo_Terminal;
 import sistema.expressaoRegular.conversao.conversores.ER_Grupo_Var;
 import sistema.expressaoRegular.conversao.conversores.ER_Grupo_VarOuVar_X;
 import sistema.expressaoRegular.conversao.conversores.ER_Ou_Grupo_VarX;
@@ -66,7 +67,7 @@ import sistema.expressaoRegular.parser.TabelaLL1.TabelaLL1;
  * D->(A)~|(B)~|(C)~|(D)~|T~|({A})~|({B})~|({C})~|({D})~
  * F->B|C|D|T|{B}|{C}|{D}
  * G->(A)|C|D|T|({A})|{C}|{D}
- * T->a
+ * T->a|{a}
  * 
  * Tabela LL(1) da gramática sem recursão à esquerda
  * 
@@ -102,7 +103,7 @@ import sistema.expressaoRegular.parser.TabelaLL1.TabelaLL1;
  * 
  * (S,(): A, B, C, D
  * (S,a): A, B, C, D, T
- * (S,{): A, B, {A}, {B}, {C}, {D}
+ * (S,{): A, B, C, D, T, {A}, {B}, {C}, {D}
  * 
  * (A,(): F+F, F+FX, F+{FX}
  * (A,a): F+F, F+FX, F+{FX}
@@ -120,19 +121,22 @@ import sistema.expressaoRegular.parser.TabelaLL1.TabelaLL1;
  * 
  * (C,(): (A)*, (B)*, (C)*, (D)*, ({A})*, ({B})*, ({C})*, ({D})*
  * (C,a): T*
+ * (C,{): T*
  * 
  * (D,(): (A)~, (B)~, (C)~, (D)~, ({A})~, ({B})~, ({C})~, ({D})~
  * (D,a): T~
+ * (D,{): T~
  * 
  * (F,(): B, C, D
  * (F,a): B, C, D, T
- * (F,{): B, {B}, {C}, {D}
+ * (F,{): B, C, D, T, {B}, {C}, {D}
  * 
  * (G,(): (A), C, D, ({A})
- * (G,a): C, D, T, 
- * (G,{): {C}, {D}
+ * (G,a): C, D, T
+ * (G,{): C, D, T, {C}, {D}
  * 
  * (T,a): a
+ * (T,{): {a}
  */
 public class ConversaoER_Gramatica {
 	
@@ -264,6 +268,7 @@ public class ConversaoER_Gramatica {
 		Producao G7 = new Producao(G,ER_Grupo_Var.getInstance());G7.addSimboloCorpo(_g.getTerminal('{'));G7.addSimboloCorpo(D);G7.addSimboloCorpo(_g.getTerminal('}'));
 		
 		Producao T1 = new Producao(T,ER_Terminal.getInstance());T1.addSimboloCorpo(_g.getTerminal(Terminal.terminal));
+		Producao T2 = new Producao(T,ER_Grupo_Terminal.getInstance());T2.addSimboloCorpo(_g.getTerminal('{'));T2.addSimboloCorpo(_g.getTerminal(Terminal.terminal));T2.addSimboloCorpo(_g.getTerminal('}'));
 		
 		_g.addProducao(S1);_g.addProducao(S2);_g.addProducao(S3);_g.addProducao(S4);_g.addProducao(S5);_g.addProducao(S6);_g.addProducao(S7);_g.addProducao(S8);_g.addProducao(S9);
 		_g.addProducao(A1);_g.addProducao(A2);_g.addProducao(A3);_g.addProducao(A4);
@@ -274,7 +279,7 @@ public class ConversaoER_Gramatica {
 		_g.addProducao(D1);_g.addProducao(D2);_g.addProducao(D3);_g.addProducao(D4);_g.addProducao(D5);_g.addProducao(D6);_g.addProducao(D7);_g.addProducao(D8);_g.addProducao(D9);
 		_g.addProducao(F1);_g.addProducao(F2);_g.addProducao(F3);_g.addProducao(F4);_g.addProducao(F5);_g.addProducao(F6);_g.addProducao(F7);
 		_g.addProducao(G1);_g.addProducao(G2);_g.addProducao(G3);_g.addProducao(G4);_g.addProducao(G5);_g.addProducao(G6);_g.addProducao(G7);
-		_g.addProducao(T1);
+		_g.addProducao(T1);_g.addProducao(T2);
 		
 		/**
 		 * Criando a tabela LL(1)
@@ -283,7 +288,7 @@ public class ConversaoER_Gramatica {
 		// Adicionando as produções na tabela LL1
 		_t.addProducao(S, _g.getTerminal('('), S1); _t.addProducao(S, _g.getTerminal('('), S2); _t.addProducao(S, _g.getTerminal('('), S3); _t.addProducao(S, _g.getTerminal('('), S4);
 		_t.addProducao(S, _g.getTerminal(Terminal.terminal), S1); _t.addProducao(S, _g.getTerminal(Terminal.terminal), S2); _t.addProducao(S, _g.getTerminal(Terminal.terminal), S3); _t.addProducao(S, _g.getTerminal(Terminal.terminal), S4); _t.addProducao(S, _g.getTerminal(Terminal.terminal), S5);
-		_t.addProducao(S, _g.getTerminal('{'), S1); _t.addProducao(S, _g.getTerminal('{'), S2); _t.addProducao(S, _g.getTerminal('{'), S6); _t.addProducao(S, _g.getTerminal('{'), S7); _t.addProducao(S, _g.getTerminal('{'), S8); _t.addProducao(S, _g.getTerminal('{'), S9);
+		_t.addProducao(S, _g.getTerminal('{'), S1); _t.addProducao(S, _g.getTerminal('{'), S2); _t.addProducao(S, _g.getTerminal('{'), S3); _t.addProducao(S, _g.getTerminal('{'), S4); _t.addProducao(S, _g.getTerminal('{'), S5); _t.addProducao(S, _g.getTerminal('{'), S6); _t.addProducao(S, _g.getTerminal('{'), S7); _t.addProducao(S, _g.getTerminal('{'), S8); _t.addProducao(S, _g.getTerminal('{'), S9);
 		
 		_t.addProducao(A, _g.getTerminal('('), A1); _t.addProducao(A, _g.getTerminal('('), A2); _t.addProducao(A, _g.getTerminal('('), A4);
 		_t.addProducao(A, _g.getTerminal(Terminal.terminal), A1); _t.addProducao(A, _g.getTerminal(Terminal.terminal), A2); _t.addProducao(A, _g.getTerminal(Terminal.terminal), A4);
@@ -301,19 +306,22 @@ public class ConversaoER_Gramatica {
 		
 		_t.addProducao(C, _g.getTerminal('('), C1); _t.addProducao(C, _g.getTerminal('('), C2); _t.addProducao(C, _g.getTerminal('('), C3); _t.addProducao(C, _g.getTerminal('('), C4); _t.addProducao(C, _g.getTerminal('('), C6); _t.addProducao(C, _g.getTerminal('('), C7); _t.addProducao(C, _g.getTerminal('('), C8); _t.addProducao(C, _g.getTerminal('('), C9);
 		_t.addProducao(C, _g.getTerminal(Terminal.terminal), C5);
+		_t.addProducao(C, _g.getTerminal('{'), C5);
 		
 		_t.addProducao(D, _g.getTerminal('('), D1); _t.addProducao(D, _g.getTerminal('('), D2); _t.addProducao(D, _g.getTerminal('('), D3); _t.addProducao(D, _g.getTerminal('('), D4); _t.addProducao(D, _g.getTerminal('('), D6); _t.addProducao(D, _g.getTerminal('('), D7); _t.addProducao(D, _g.getTerminal('('), D8); _t.addProducao(D, _g.getTerminal('('), D9);
 		_t.addProducao(D, _g.getTerminal(Terminal.terminal), D5);
+		_t.addProducao(D, _g.getTerminal('{'), D5);
 		
 		_t.addProducao(F, _g.getTerminal('('), F1); _t.addProducao(F, _g.getTerminal('('), F2); _t.addProducao(F, _g.getTerminal('('), F3);
 		_t.addProducao(F, _g.getTerminal(Terminal.terminal), F1); _t.addProducao(F, _g.getTerminal(Terminal.terminal), F2); _t.addProducao(F, _g.getTerminal(Terminal.terminal), F3); _t.addProducao(F, _g.getTerminal(Terminal.terminal), F4);
-		_t.addProducao(F, _g.getTerminal('{'), F1); _t.addProducao(F, _g.getTerminal('{'), F5); _t.addProducao(F, _g.getTerminal('{'), F6); _t.addProducao(F, _g.getTerminal('{'), F7);
+		_t.addProducao(F, _g.getTerminal('{'), F1); _t.addProducao(F, _g.getTerminal('{'), F2); _t.addProducao(F, _g.getTerminal('{'), F3); _t.addProducao(F, _g.getTerminal('{'), F4); _t.addProducao(F, _g.getTerminal('{'), F5); _t.addProducao(F, _g.getTerminal('{'), F6); _t.addProducao(F, _g.getTerminal('{'), F7);
 		
 		_t.addProducao(G, _g.getTerminal('('), G1); _t.addProducao(G, _g.getTerminal('('), G2); _t.addProducao(G, _g.getTerminal('('), G3); _t.addProducao(G, _g.getTerminal('('), G5);
 		_t.addProducao(G, _g.getTerminal(Terminal.terminal), G2); _t.addProducao(G, _g.getTerminal(Terminal.terminal), G3); _t.addProducao(G, _g.getTerminal(Terminal.terminal), G4);
-		_t.addProducao(G, _g.getTerminal('{'), G6); _t.addProducao(G, _g.getTerminal('{'), G7);
+		_t.addProducao(G, _g.getTerminal('{'), G2); _t.addProducao(G, _g.getTerminal('{'), G3); _t.addProducao(G, _g.getTerminal('{'), G4); _t.addProducao(G, _g.getTerminal('{'), G6); _t.addProducao(G, _g.getTerminal('{'), G7);
 		
 		_t.addProducao(T, _g.getTerminal(Terminal.terminal), T1);
+		_t.addProducao(T, _g.getTerminal('{'), T2);
 		
 		_g._TabLL1 = _t;
 		parserConversor = new ParserConversor(_g);

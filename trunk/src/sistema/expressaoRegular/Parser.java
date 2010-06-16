@@ -7,13 +7,15 @@ import sistema.expressaoRegular.parser.GenericParser;
 import sistema.expressaoRegular.parser.TabelaLL1.ColunasLL1;
 
 public class Parser extends GenericParser{
-	private String stringEstrada;
 	public Gramatica _G;
+	
+	private String stringEstrada;
 
 	public Parser(Gramatica _g) {
 		super();
 		
 		_G = _g;
+		
 		gerarFirstFollow();
 	}
 	

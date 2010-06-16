@@ -43,6 +43,6 @@ public class ER_Ou_Grupo_VarX implements Conversor {
 		_p.addSimboloCorpo(varA);
 		g.addProducao(_p);
 		
-		return terminaisLidos++;	// Referente ao +
+		return ++terminaisLidos;	// Referente ao +
 	}
 }
