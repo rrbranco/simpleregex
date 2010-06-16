@@ -70,4 +70,30 @@ public class ParserConversor extends GenericParser{
 		
 		return new Terminal( c );
 	}
+
+	@Override
+	protected boolean podarDerivacao() {
+		int charToMatch = 0;
+		
+		// Para todos os terminais na forma sentencial
+		for (int i = 0; i < _FS._FormaSentencial.size(); i++) {
+			if (_FS._FormaSentencial.elementAt(i) instanceof Variavel) {
+				continue;
+			}
+			
+			Terminal t = (Terminal) _FS._FormaSentencial.elementAt(i);
+			
+			// Localizar a primeira ocorrência do terminal t na string de entrada, a partir do restante a ser casado
+			for (; charToMatch < _StrEntradaEscapada.length(); charToMatch++) {
+				if (getParserChar(charToMatch).equals(t))
+					break;
+			}
+			
+			// Caso tenha percorrido a string de entrada inteira e não encontrado t, abortar caminho de derivação
+			if (charToMatch >= _StrEntradaEscapada.length())
+				return true;
+		}
+		
+		return false;
+	}
 }
