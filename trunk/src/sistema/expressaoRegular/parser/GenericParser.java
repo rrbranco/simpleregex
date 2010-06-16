@@ -61,6 +61,7 @@ public abstract class GenericParser {
 			return abortarCaminho();		// Abortar caminho de derivação
 		}
 		
+		DebugFormaSentencial(_FS._FormaSentencial);
 		
 		// Adquirindo símbolo mais a esquerda à casar
 		Simbolo sEsq = _FS._FormaSentencial.elementAt(_FS.pCharACasar);
@@ -156,4 +157,14 @@ public abstract class GenericParser {
 	protected abstract boolean itMatch(Terminal t, int charACasar);
 	
 	protected abstract ColunasLL1 getDerivacoesLL1(Variavel linha, int charFirst);
+	
+	private void DebugFormaSentencial(Vector<Simbolo> formaSentencial) {
+		for (int i = 0; i < formaSentencial.size(); i++) {
+			if (formaSentencial.elementAt(i) instanceof Variavel)
+				System.out.print("V");
+			else
+				System.out.print(((Terminal)formaSentencial.elementAt(i))._caractere);
+		}
+		System.out.println();
+	}
 }
