@@ -8,6 +8,11 @@ import sistema.expressaoRegular.gramatica.Variavel;
 import sistema.expressaoRegular.parser.TabelaLL1.ColunasLL1;
 
 public abstract class GenericParser {
+	private static final int ABORTAR_CAMINHO = 0;
+	private static final int PROXIMO_PASSO = 1;
+	private static final int ENCONTROU_CAMINHO = 2;
+	private static final int NAO_ENCONTROU_CAMINHO = 3;
+	
 	// Tamanho da string de entrada
 	private int tamStringEntrada;
 	
@@ -33,7 +38,7 @@ public abstract class GenericParser {
 	/**
 	 * Realiza os passos do parser LL(1)
 	 */
-	private boolean proximoPasso() {
+	private int proximoPasso() {
 		System.gc();
 		/**
 		 * Verificar se já casou com todos os i elementos da string de entrada
@@ -45,21 +50,21 @@ public abstract class GenericParser {
 				
 				// Todos deverão ser variáveis com epsilon em FIRST a partir de pCharACasar
 				if (isAllEpsilonVariaveis(_FS._FormaSentencial, _FS.pCharACasar)) {
-					return true;					// Conseguiu encontrar uma derivação
+					return ENCONTROU_CAMINHO;	// Conseguiu encontrar uma derivação
 				} else {
-					return abortarCaminho();		// Abortar caminho de derivação
+					return ABORTAR_CAMINHO;		// Abortar caminho de derivação
 				}
 				
 			// Caso não existam mais símbolos
 			} else {
-				return true;		// Conseguiu encontrar uma derivação
+				return ENCONTROU_CAMINHO;		// Conseguiu encontrar uma derivação
 			}
 		
 		/**
 		 * Caso a SENTENÇA gerada seja menor do que a string de entrada
 		 */
 		} else if (_FS.pCharACasar >= _FS._FormaSentencial.size()) {		// Se for sentença, ocorrerá um estouro no índice pCharCasar
-			return abortarCaminho();		// Abortar caminho de derivação
+			return ABORTAR_CAMINHO;		// Abortar caminho de derivação
 		}
 		
 		DebugFormaSentencial(_FS._FormaSentencial);
@@ -69,7 +74,7 @@ public abstract class GenericParser {
 		 */
 		if (podarDerivacao()) {
 			System.out.println("Podado");
-			return abortarCaminho();
+			return ABORTAR_CAMINHO;
 		}
 		
 		// Adquirindo símbolo mais a esquerda à casar
@@ -82,11 +87,11 @@ public abstract class GenericParser {
 			// Se o símbolo da forma sentencial for correto
 			if (itMatch((Terminal) sEsq, _FS.pCharACasar)) {
 				_FS.pCharACasar++;
-				return proximoPasso();			// Casar próximo caractere
+				return PROXIMO_PASSO;			// Casar próximo caractere
 				
 			// Se o símbolo da forma sentencial for errado
 			} else {
-				return abortarCaminho();		// Abortar caminho de derivação
+				return ABORTAR_CAMINHO;			// Abortar caminho de derivação
 			}
 		
 		/**
@@ -97,7 +102,7 @@ public abstract class GenericParser {
 			
 			// Caso não exista derivação para esta variável e terminal
 			if (derivacoes == null) {
-				return abortarCaminho();	// Abortar caminho atual
+				return ABORTAR_CAMINHO;		// Abortar caminho atual
 			
 			// Caso exista, considerando ambiguidade, gerar todos os caminhos possiveis
 			} else {
@@ -107,7 +112,7 @@ public abstract class GenericParser {
 				_FS.setCaminhos(caminhos);	// Adicionando caminhos do nodo
 				
 				_FS = _FS.getCaminho(0);	// Pesquisando pelo primeiro caminho
-				return proximoPasso();
+				return PROXIMO_PASSO;
 			}
 		}
 	}
@@ -125,12 +130,12 @@ public abstract class GenericParser {
 		return true;
 	}
 
-	private boolean abortarCaminho() {
+	private int abortarCaminho() {
 		System.out.println("Abortando caminho");
 		
 		// Não existe mais caminhos alternativos
 		if (_BT.isEmpty()) {
-			return false;
+			return NAO_ENCONTROU_CAMINHO;
 		}
 		
 		_FS = _FS._Pai;								// Voltar a derivação ao nodo Pai
@@ -141,23 +146,35 @@ public abstract class GenericParser {
 		 */
 		if (_BT.lastElement() < _FS.getMaxBacktracking()) {
 			_FS = _FS.getCaminho(_BT.lastElement());		// Pesquisar novo caminho
-			return proximoPasso();
+			return PROXIMO_PASSO;
 			
 		/**
 		 * Caso não exista um próximo caminho através do nodo Pai
 		 */
 		} else {
 			_BT.remove(_BT.size()-1);		// Eliminar Backtracking do Pai
-			return abortarCaminho();		// Pesquisar caminhos alternativos pelo Avô
+			return ABORTAR_CAMINHO;			// Pesquisar caminhos alternativos pelo Avô
 		}
 	}
 	
 	public Nodo getNextDerivacao() {
-		if (proximoPasso()) { return _NodoPai; }
+		int result = PROXIMO_PASSO;
 		
-		return null;
+		do {
+			if (result == ABORTAR_CAMINHO) {
+				result = abortarCaminho();
+			}
+			if (result == PROXIMO_PASSO) {
+				result = proximoPasso();
+			}
+		} while (result != ENCONTROU_CAMINHO && result != NAO_ENCONTROU_CAMINHO );
+		
+		return (result==ENCONTROU_CAMINHO)? _NodoPai:null;
 	}
 	
+	/**
+	 * Libera memória
+	 */
 	public void limpar() {
 		_NodoPai = null;
 		_FS = null;
