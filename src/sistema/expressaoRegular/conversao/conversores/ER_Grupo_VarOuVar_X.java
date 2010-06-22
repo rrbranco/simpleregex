@@ -12,12 +12,12 @@ import sistema.expressaoRegular.parser.Nodo;
 /**
  * Cria produções para ER da forma: {A+B}Y, Y sendo variável que deriva +alfa
  */
-public class ER_Grupo_VarOuVar_X implements Conversor {
-	private static final Conversor _c;
+public class ER_Grupo_VarOuVar_X implements ConversorER {
+	private static final ConversorER _c;
 	
 	static { _c = new ER_Grupo_VarOuVar_X(); }
 
-	public static Conversor getInstance() { return _c; }
+	public static ConversorER getInstance() { return _c; }
 	
 	@Override
 	public int converter(Gramatica g, Vector<Variavel> varPendente, Vector<Variavel> ouPendente, ParserConversor p, Nodo n, int terminaisLidos) {

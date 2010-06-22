@@ -20,7 +20,7 @@ public class Gramatica {
 	}
 	
 	public void addVariavel(Variavel v) {
-		if (v instanceof Grupo) { ((Grupo)v)._Indice = ++_MaxIndice; }
+		if (v instanceof Grupo) { ((Grupo)v)._IndiceGrupo = ++_MaxIndice; }
 		_V.add(v);
 	}
 	
@@ -30,10 +30,10 @@ public class Gramatica {
 		int i = _T.indexOf(new Terminal(c));
 		
 		if (i == -1) {
-			Terminal t = new Terminal(c);
-			return t;
-		} else {
-			return  (i == -1)?null:_T.elementAt(i);
+			_T.add( new Terminal(c) );
+			return _T.lastElement();
 		}
+		
+		return _T.elementAt(i);
 	}
 }

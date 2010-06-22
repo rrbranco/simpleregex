@@ -6,8 +6,9 @@ public class Terminal extends Simbolo {
 	 * Símbolos especiais
 	 */
 	public static final char escape = '/';
-	public static final char terminal = 1;
-	public static final char epsilon = 0;
+	public static final char terminal = 0;
+	public static final char epsilon = 163;
+	public static final char finalCadeia = 216;
 	
 	public Terminal(char caractere) {
 		super(caractere);

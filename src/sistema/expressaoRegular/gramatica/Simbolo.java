@@ -16,8 +16,8 @@ public abstract class Simbolo {
 		} else if (obj instanceof Character && this instanceof Terminal) {
 			return this._caractere.equals(obj);
 			
-		} else if (obj instanceof Simbolo) {
-			return ((Simbolo)obj)._caractere == this._caractere;
+		} else if (obj instanceof Terminal) {
+			return ((Terminal)obj)._caractere == this._caractere;
 		}
 		
 		return false;

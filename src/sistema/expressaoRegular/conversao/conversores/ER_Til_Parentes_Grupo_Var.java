@@ -12,19 +12,19 @@ import sistema.expressaoRegular.parser.Nodo;
 /**
  * Cria produções para ER da forma: ({A})~
  */
-public class ER_Til_Parentes_Grupo_Var implements Conversor {
-	private static final Conversor _c;
+public class ER_Til_Parentes_Grupo_Var implements ConversorER {
+	private static final ConversorER _c;
 	
 	static { _c = new ER_Til_Parentes_Grupo_Var(); }
 
-	public static Conversor getInstance() { return _c; }
+	public static ConversorER getInstance() { return _c; }
 	
 	@Override
 	public int converter(Gramatica g, Vector<Variavel> varPendente, Vector<Variavel> ouPendente, ParserConversor p, Nodo n, int terminaisLidos) {
-		Grupo varRecursao = new Grupo();
+		Variavel varRecursao = new Variavel();
 		g.addVariavel(varRecursao);
 		
-		Variavel varNormal = new Variavel();
+		Grupo varNormal = new Grupo();
 		g.addVariavel(varNormal);
 		varPendente.add(0, varNormal);
 		
