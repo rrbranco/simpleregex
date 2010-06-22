@@ -13,6 +13,8 @@ public abstract class GenericParser {
 	private static final int ENCONTROU_CAMINHO = 2;
 	private static final int NAO_ENCONTROU_CAMINHO = 3;
 	
+	private static int estado;
+	
 	// Tamanho da string de entrada
 	private int tamStringEntrada;
 	
@@ -33,6 +35,7 @@ public abstract class GenericParser {
 		_NodoPai = new Nodo(0, varInicial);
 		_FS = _NodoPai;
 		_BT = new Vector<Integer>();
+		estado = PROXIMO_PASSO;
 	}
 	
 	/**
@@ -40,6 +43,15 @@ public abstract class GenericParser {
 	 */
 	private int proximoPasso() {
 		System.gc();
+		/**
+		 * Limpando epsilons
+		 */
+		for (int i = 0; i < _FS._FormaSentencial.size(); i++) {
+			if (_FS._FormaSentencial.elementAt(i) instanceof Terminal && _FS._FormaSentencial.elementAt(i)._caractere == Terminal.epsilon) {
+				_FS._FormaSentencial.removeElementAt(i--);
+			}
+		}
+		
 		/**
 		 * Verificar se já casou com todos os i elementos da string de entrada
 		 */
@@ -158,18 +170,20 @@ public abstract class GenericParser {
 	}
 	
 	public Nodo getNextDerivacao() {
-		int result = PROXIMO_PASSO;
+		if (estado == ENCONTROU_CAMINHO){
+			estado = ABORTAR_CAMINHO;
+		}
 		
 		do {
-			if (result == ABORTAR_CAMINHO) {
-				result = abortarCaminho();
+			if (estado == ABORTAR_CAMINHO) {
+				estado = abortarCaminho();
 			}
-			if (result == PROXIMO_PASSO) {
-				result = proximoPasso();
+			if (estado == PROXIMO_PASSO) {
+				estado = proximoPasso();
 			}
-		} while (result != ENCONTROU_CAMINHO && result != NAO_ENCONTROU_CAMINHO );
+		} while (estado != ENCONTROU_CAMINHO && estado != NAO_ENCONTROU_CAMINHO ); 
 		
-		return (result==ENCONTROU_CAMINHO)? _NodoPai:null;
+		return (estado==ENCONTROU_CAMINHO)? _NodoPai:null;
 	}
 	
 	/**

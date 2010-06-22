@@ -1,9 +1,13 @@
 package sistema.expressaoRegular.gramatica;
 
+import java.util.Vector;
+
 public class Variavel extends Simbolo{
 	
 	public char simboloDebug;
 	public boolean produzEpsilon = false;
+	public Vector<Terminal> _First = new Vector<Terminal>();
+	public Vector<Terminal> _Follow = new Vector<Terminal>();
 	
 	/**
 	 * Número que identifica a linha em uma tabela LL1, evita
@@ -19,14 +23,5 @@ public class Variavel extends Simbolo{
 		super(null);
 		
 		simboloDebug = simbDebug;
-	}
-	
-	@Override
-	public Object clone() {
-		Variavel v = new Variavel();
-		v.simboloDebug = this.simboloDebug;
-		v.idLinha = this.idLinha;
-		v.produzEpsilon = this.produzEpsilon;
-		return v;
 	}
 }

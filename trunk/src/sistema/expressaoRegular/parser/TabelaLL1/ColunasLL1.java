@@ -6,7 +6,7 @@ import sistema.expressaoRegular.gramatica.Producao;
 import sistema.expressaoRegular.parser.Nodo;
 
 public class ColunasLL1 {
-	private Vector<Producao> producoes = new Vector<Producao>();
+	public Vector<Producao> producoes = new Vector<Producao>();
 
 	public Vector<Nodo> getCaminhos(Nodo pai) {
 		Vector<Nodo> caminhos = new Vector<Nodo>();
@@ -27,6 +27,8 @@ public class ColunasLL1 {
 	}
 
 	public void addProducao(Producao producao) {
-		producoes.add(producao);
+		if (producoes.indexOf(producao) == -1){
+			producoes.add(producao);
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package sistema.expressaoRegular;
 
+import sistema.Debug;
 import sistema.expressaoRegular.conversao.ConversaoER_Gramatica;
 import sistema.expressaoRegular.gramatica.Gramatica;
 
@@ -11,8 +12,11 @@ public class ExpressaoRegular {
 		_ER = expressaoRegular;
 		Gramatica _G = ConversaoER_Gramatica.criarGramaticaDeExpressaoRegular(this);
 		
+		Debug.printER(expressaoRegular);
+		Debug.printGramatica(_G);
+		
 		/**
-		 * Criando tabela de parser para a expressão regular
+		 * Criando tabela LL(1) e parser para a expressão regular
 		 */
 		_P = new Parser(_G);
 	}
