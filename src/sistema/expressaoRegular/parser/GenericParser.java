@@ -25,10 +25,10 @@ public abstract class GenericParser {
 	// Vetor para BackTracking do parser
 	private Vector<Integer> _BT;
 	
-	/**
+	/*
 	 * Iniciar o parser para encontrar derivações
 	 * 
-	 * @param str - String a ser interpretada, casada
+	 * @param tamStringEntrada - Tamanho da string a ser interpretada/casada
 	 */
 	public void iniciar(int tamStringEntrada, Variavel varInicial) {
 		this.tamStringEntrada = tamStringEntrada;

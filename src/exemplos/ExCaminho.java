@@ -29,19 +29,19 @@ public class ExCaminho {
 		String _Cidades = "1+2+3+4+5";
 		String _Tudo = "-+" + _Cidades;
 		String _TudoFecho = "("+_Tudo+")*";
-		String _CidadesOU = "("+_Cidades+")";
+		//String _CidadesOU = "("+_Cidades+")";
 		
-		sist.addRegraReescrita(_CidadesOU + "de{"+_TudoFecho+"}1?", "1de/0/1-2");
-		sist.addRegraReescrita(_CidadesOU + "de{"+_TudoFecho+"}1?", "1de/0/1-4");
-		sist.addRegraReescrita(_CidadesOU + "de{"+_TudoFecho+"}1?", "1de/0/1-3");
+		sist.addRegraReescrita("{" + _Cidades + "}" + "de{"+_TudoFecho+"}1?", "/0/de/1/1-2?");
+		sist.addRegraReescrita("{" + _Cidades + "}" + "de{"+_TudoFecho+"}1?", "/0/de/1/1-4?");
+		sist.addRegraReescrita("{" + _Cidades + "}" + "de{"+_TudoFecho+"}1?", "/0/de/1/1-3?");
 		
-		sist.addRegraReescrita(_CidadesOU + "de{"+_TudoFecho+"}2?", "1de/0/2-3");
-		sist.addRegraReescrita(_CidadesOU + "de{"+_TudoFecho+"}2?", "1de/0/2-5");
+		sist.addRegraReescrita("{" + _Cidades + "}" + "de{"+_TudoFecho+"}2?", "/0/de/1/2-3?");
+		sist.addRegraReescrita("{" + _Cidades + "}" + "de{"+_TudoFecho+"}2?", "/0/de/1/2-5?");
 		
-		sist.addRegraReescrita(_CidadesOU + "de{"+_TudoFecho+"}3?", "1de/0/3-4");
-		sist.addRegraReescrita(_CidadesOU + "de{"+_TudoFecho+"}3?", "1de/0/3-5");
+		sist.addRegraReescrita("{" + _Cidades + "}" + "de{"+_TudoFecho+"}3?", "/0/de/1/3-4?");
+		sist.addRegraReescrita("{" + _Cidades + "}" + "de{"+_TudoFecho+"}3?", "/0/de/1/3-5?");
 		
-		sist.addRegraReescrita(_CidadesOU + "de{"+_TudoFecho+"}4?", "1de/0/4-5");
+		sist.addRegraReescrita("{" + _Cidades + "}" + "de{"+_TudoFecho+"}4?", "/0/de/1/4-5?");
 		
 		sist.addRegraReescrita("1de{"+_TudoFecho+"}1?", "Sim /0/1");
 		sist.addRegraReescrita("2de{"+_TudoFecho+"}2?", "Sim /0/2");
@@ -49,7 +49,7 @@ public class ExCaminho {
 		sist.addRegraReescrita("4de{"+_TudoFecho+"}4?", "Sim /0/4");
 		sist.addRegraReescrita("5de{"+_TudoFecho+"}5?", "Sim /0/5");
 		
-		String entrada = Run.lerEntrada("Digite o caminho de pesquisa no formato 'nden?': ");
+		String entrada = Run.lerEntrada("Digite o caminho de pesquisa no formato 'nden?' (ex:5de1?): ");
 		sist.limparAlimentacao();
 		sist.addAlimentacao(entrada);
 		
@@ -58,7 +58,7 @@ public class ExCaminho {
 		// Pesquisar se encontrou um caminho
 		boolean encontrouCaminho = false;
 		
-		while (!((result = sist.processarUmCiclo()).size() < 1) && !encontrouCaminho) {
+		while (!encontrouCaminho && !((result = sist.processarUmCiclo()).size() < 1)) {
 			// Imprimir os caminhos
 			for (int i = 0; i < result.size(); i++) {
 				if (result.elementAt(i).charAt(0) == 'S') {
