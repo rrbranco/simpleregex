@@ -1,0 +1,14 @@
+Obrigado por utilizar o sistema de reescrita com expressões regulares.
+Caso tenha algum comentário, crítica, sugestão ou mesmo alguma implementação ou adição de recursos por favor entre em contato conosco através de nosso blog: http://simpleregex.blogspot.com/
+
+O código está no servidor svn do Google e pode ser encontrado em: http://code.google.com/p/simpleregex/
+
+Estrutura básico do código:
+-exemplos				Exemplo de como utilizar a biblioteca
+-sistema				Implementao o sistema que armazena todas as outras estruturas
+--expressaoRegular		Contém todas as classes relativas a expressão regular e o parseamento das strings  
+---conversao			Realizam a conversão da ER em gramática
+---gramatica			Classes que definem uma gramática
+---parser				Parser genérico implementado
+
+Existe uma interface em texto para se utilizar alguns dos recursos da biblioteca e pode ser acessado através da classe Run.
